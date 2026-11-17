@@ -48,10 +48,6 @@ at 2.00 GHz using 100 runs per model.
 - Gensim
 - Gradio
 
-## Setup and Installation
-Setup instructions and model download links
-will be added after independent deployment testing.
-
 
 ## Download Trained Models
 
