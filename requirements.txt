@@ -1,0 +1,10 @@
+torch
+transformers
+gradio
+numpy
+pandas
+scikit-learn
+gensim
+joblib
+safetensors
+scipy

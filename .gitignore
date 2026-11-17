@@ -1,0 +1,29 @@
+# Python temporary files
+__pycache__/
+*.pyc
+
+# Virtual environments
+.venv/
+venv/
+
+# Large trained model files
+*.pt
+*.pth
+*.joblib
+*.model
+*.safetensors
+
+# Model checkpoints
+bert_finetuned/
+bert_checkpoints/
+models/
+
+# Large dataset files
+train.csv
+validation.csv
+test.csv
+
+# Private and temporary files
+.env
+.ipynb_checkpoints/
+.DS_Store

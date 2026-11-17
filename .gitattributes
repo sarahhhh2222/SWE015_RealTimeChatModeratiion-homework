@@ -1,2 +1,19 @@
-# Auto detect text files and perform LF normalization
+# Normalize text files
 * text=auto
+
+# Python source files
+*.py text eol=lf
+
+# Project documentation
+*.md text eol=lf
+*.txt text eol=lf
+
+# Jupyter notebooks
+*.ipynb text eol=lf
+
+# Model files are binary
+*.pt binary
+*.pth binary
+*.joblib binary
+*.model binary
+*.safetensors binary
