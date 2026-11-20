@@ -127,7 +127,7 @@ def load_models():
 
     # Rebuild the exact INT8 architecture before loading its stored state dict.
     quantized = torch.ao.quantization.quantize_dynamic(
-        bert, {torch.nn.Linear}, dtype=torch.qint8, inplace=False,
+        bert, {torch.nn.Linear}, dtype=torch.qint8, inplace=True,
     )
     quantized.load_state_dict(torch.load(
         MODEL_DIR / "bert_dynamic_int8_state_dict.pt",
@@ -135,6 +135,7 @@ def load_models():
         weights_only=True,
     ), strict=True)
     quantized.eval()
+    bert = None
     return tfidf, baseline, word2vec, scaler, network, tokenizer, bert, quantized
 
 
@@ -174,8 +175,17 @@ def predict_message(message, selected_model):
         inputs = bert_tokenizer(
             message, return_tensors="pt", truncation=True, max_length=128,
         )
-        model = (quantized_bert if selected_model == "Quantized BERT (INT8)"
-                 else loaded_bert)
+             global loaded_bert
+
+        if selected_model == "Original BERT (FP32)" and loaded_bert is None:
+            loaded_bert = AutoModelForSequenceClassification.from_pretrained(
+                str(MODEL_DIR / "bert_finetuned")
+            ).cpu().float().eval()
+
+        model = (
+            quantized_bert if selected_model == "Quantized BERT (INT8)"
+            else loaded_bert
+        )
         with torch.inference_mode():
             logits = model(**inputs).logits
             probabilities = torch.softmax(logits, dim=1)[0].numpy()
